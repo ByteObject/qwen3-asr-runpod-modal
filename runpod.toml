@@ -1,48 +1,22 @@
-# RunPod Serverless Configuration for Qwen3-ASR
+[runpod]
+# RunPod Hub Template Configuration
+# Qwen3-ASR Serverless - Speech Recognition
 
-[project]
-name = "qwen3-asr"
-version = "1.0.0"
-description = "Qwen3-ASR Speech Recognition - Serverless API"
-
-[runtime]
-python_version = "3.11"
-handler = "handler.handler"
-
-[build]
+name = "qwen3-asr-api"
 dockerfile = "Dockerfile"
 
-[deploy]
-# GPU configuration
-# Qwen3-ASR-1.7B needs ~4-6GB VRAM, 16GB minimum recommended for headroom
-gpu_types = [
-    "NVIDIA RTX A4000",
-    "NVIDIA RTX A5000",
-    "NVIDIA GeForce RTX 4090",
-    "NVIDIA L4",
-    "NVIDIA L40",
-    "NVIDIA A10",
-    "NVIDIA A40",
-    "NVIDIA A100-SXM4-40GB",
-    "NVIDIA A100-SXM4-80GB",
-]
+# GPU Requirements (16GB VRAM minimum for Qwen3-ASR-1.7B)
+gpu_types = ["NVIDIA RTX A4000", "NVIDIA RTX A5000", "NVIDIA GeForce RTX 4090", "NVIDIA L4", "NVIDIA L40", "NVIDIA A10", "NVIDIA A40", "NVIDIA A100-SXM4-40GB", "NVIDIA A100-SXM4-80GB"]
 min_vram_gb = 16
 
-# Container configuration
-container_disk_gb = 5
+# Storage Configuration
+container_disk_gb = 5    # Code and dependencies
+volume_gb = 20           # Model cache (persistent across workers)
 
-# Network volume for model cache
-network_volume_gb = 20
+# Execution Settings
+execution_timeout = 300  # 5 minutes per job
 
-# Scaling configuration
-min_workers = 0
-max_workers = 5
-
-# Request handling
-timeout_seconds = 300
-idle_timeout_seconds = 60
-
-[env]
-HF_HOME = "/runpod-volume"
-MODEL_NAME = "Qwen/Qwen3-ASR-1.7B"
-MAX_BATCH_SIZE = "32"
+# Auto-scaling Configuration
+min_workers = 0          # Scale to zero when idle
+max_workers = 5          # Maximum concurrent workers
+scale_down_delay = 60    # Seconds before scaling down
