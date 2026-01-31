@@ -36,8 +36,8 @@ RUN pip install --no-cache-dir flash-attn --no-build-isolation || \
 # Install qwen-asr from GitHub
 RUN pip install --no-cache-dir git+https://github.com/QwenLM/Qwen3-ASR.git
 
-# Copy handler (from .runpod/ since this Dockerfile is in .runpod/)
-COPY .runpod/handler.py /app/handler.py
+# Copy handler from repository root
+COPY handler.py /app/handler.py
 
 # Pre-download model during build (optional, speeds up cold start)
 # Uncomment the following lines to bake the model into the image
