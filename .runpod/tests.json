@@ -1,0 +1,76 @@
+{
+  "$schema": "https://schema.runpod.io/tests.json",
+  "tests": [
+    {
+      "name": "Basic English Transcription",
+      "description": "Test basic English audio transcription",
+      "input": {
+        "audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_en.wav"
+      },
+      "expected": {
+        "text": {
+          "type": "string",
+          "minLength": 10
+        },
+        "language": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "name": "Transcription with Timestamps",
+      "description": "Test transcription with timestamp output enabled",
+      "input": {
+        "audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_en.wav",
+        "return_timestamps": true
+      },
+      "expected": {
+        "text": {
+          "type": "string",
+          "minLength": 10
+        },
+        "timestamps": {
+          "type": "array"
+        }
+      }
+    },
+    {
+      "name": "Language Auto-Detection",
+      "description": "Test automatic language detection without specifying language",
+      "input": {
+        "audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_cn.wav"
+      },
+      "expected": {
+        "text": {
+          "type": "string",
+          "minLength": 5
+        },
+        "language": {
+          "type": "string"
+        }
+      }
+    },
+    {
+      "name": "Batch Transcription",
+      "description": "Test batch processing of multiple audio files",
+      "input": {
+        "batch": [
+          {
+            "audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_en.wav",
+            "return_timestamps": false
+          },
+          {
+            "audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_cn.wav",
+            "return_timestamps": true
+          }
+        ]
+      },
+      "expected": {
+        "results": {
+          "type": "array",
+          "minItems": 2
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://schema.runpod.io/hub.json",
+  "title": "Qwen3-ASR",
+  "description": "State-of-the-art speech recognition powered by Qwen3-ASR. Supports 30+ languages, 22 Chinese dialects, batch processing, and timestamp output.",
+  "category": "audio",
+  "type": "serverless",
+  "version": "1.0.0",
+  "author": "baoyu.io",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/QwenLM/Qwen3-ASR",
+  "tags": [
+    "asr",
+    "speech-recognition",
+    "transcription",
+    "qwen",
+    "multilingual",
+    "chinese",
+    "audio"
+  ],
+  "features": [
+    "30+ language support",
+    "22 Chinese dialect support",
+    "Automatic language detection",
+    "Timestamp output",
+    "Batch processing",
+    "URL and base64 audio input"
+  ],
+  "models": [
+    {
+      "name": "Qwen3-ASR-1.7B",
+      "size": "3.4GB",
+      "vram": "4-6GB",
+      "description": "Best accuracy, recommended for production"
+    },
+    {
+      "name": "Qwen3-ASR-0.6B",
+      "size": "1.2GB",
+      "vram": "2-3GB",
+      "description": "Faster inference, lower cost"
+    }
+  ],
+  "gpu_requirements": {
+    "min_vram_gb": 16,
+    "recommended_gpus": [
+      "RTX A4000",
+      "RTX 4090",
+      "L4",
+      "A10"
+    ]
+  }
+}
