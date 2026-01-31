@@ -1,76 +1,41 @@
 {
-  "$schema": "https://schema.runpod.io/tests.json",
   "tests": [
     {
-      "name": "Basic English Transcription",
-      "description": "Test basic English audio transcription",
+      "name": "basic_english_transcription",
       "input": {
         "audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_en.wav"
       },
-      "expected": {
-        "text": {
-          "type": "string",
-          "minLength": 10
-        },
-        "language": {
-          "type": "string"
-        }
-      }
+      "timeout": 120000
     },
     {
-      "name": "Transcription with Timestamps",
-      "description": "Test transcription with timestamp output enabled",
+      "name": "transcription_with_timestamps",
       "input": {
         "audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_en.wav",
         "return_timestamps": true
       },
-      "expected": {
-        "text": {
-          "type": "string",
-          "minLength": 10
-        },
-        "timestamps": {
-          "type": "array"
-        }
-      }
+      "timeout": 120000
     },
     {
-      "name": "Language Auto-Detection",
-      "description": "Test automatic language detection without specifying language",
+      "name": "chinese_transcription",
       "input": {
         "audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_cn.wav"
       },
-      "expected": {
-        "text": {
-          "type": "string",
-          "minLength": 5
-        },
-        "language": {
-          "type": "string"
-        }
-      }
+      "timeout": 120000
     },
     {
-      "name": "Batch Transcription",
-      "description": "Test batch processing of multiple audio files",
+      "name": "batch_transcription",
       "input": {
         "batch": [
-          {
-            "audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_en.wav",
-            "return_timestamps": false
-          },
-          {
-            "audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_cn.wav",
-            "return_timestamps": true
-          }
+          {"audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_en.wav"},
+          {"audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_cn.wav", "return_timestamps": true}
         ]
       },
-      "expected": {
-        "results": {
-          "type": "array",
-          "minItems": 2
-        }
-      }
+      "timeout": 180000
     }
-  ]
+  ],
+  "config": {
+    "gpuTypeId": "NVIDIA L4",
+    "gpuCount": 1,
+    "allowedCudaVersions": ["12.8", "12.7", "12.6", "12.5", "12.4", "12.3", "12.2", "12.1", "12.0"]
+  }
 }

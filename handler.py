@@ -351,18 +351,18 @@ def process_request(job_input: dict) -> dict:
                 os.unlink(audio_path)
 
 
-def handler(job: dict) -> dict:
+def handler(event):
     """
     RunPod serverless handler entry point.
 
     Args:
-        job: RunPod job dictionary with 'input' key
+        event: RunPod event dictionary with 'input' key
 
     Returns:
         Transcription result or error
     """
     try:
-        job_input = job.get("input", {})
+        job_input = event["input"]
 
         if not job_input:
             return {"error": "No input provided"}
@@ -374,9 +374,9 @@ def handler(job: dict) -> dict:
         return {"error": sanitize_error(e)}
 
 
-# Pre-load model on cold start
-logger.info("Starting Qwen3-ASR RunPod Serverless Handler")
-get_model()
+# Pre-load model on cold start (lazy - only when handler is called)
+# Model will be loaded on first request
+logger.info("Qwen3-ASR RunPod Serverless Handler initialized")
 
 # Start RunPod serverless handler
 runpod.serverless.start({"handler": handler})
