@@ -6,8 +6,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
     libsndfile1 \
     libsndfile1-dev \
+    && git --version \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Ensure PATH includes standard bin directories
+ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:${PATH}"
 
 # Environment variables
 ENV HF_HOME=/runpod-volume
@@ -31,7 +35,7 @@ RUN python3 -m pip install flash-attn --no-build-isolation || \
     echo "flash-attn installation skipped (not critical)"
 
 # Install qwen-asr from GitHub (requires clone + editable install)
-RUN git clone https://github.com/QwenLM/Qwen3-ASR.git /tmp/Qwen3-ASR && \
+RUN /usr/bin/git clone https://github.com/QwenLM/Qwen3-ASR.git /tmp/Qwen3-ASR && \
     cd /tmp/Qwen3-ASR && \
     python3 -m pip install -e . && \
     rm -rf /tmp/Qwen3-ASR/.git
