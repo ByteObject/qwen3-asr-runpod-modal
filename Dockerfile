@@ -2,11 +2,11 @@ FROM runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404
 
 # System dependencies for audio processing
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
+    wget \
+    unzip \
     ffmpeg \
     libsndfile1 \
     libsndfile1-dev \
-    && git --version \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -34,11 +34,12 @@ RUN python3 -m pip install "transformers>=4.40.0" accelerate sentencepiece
 RUN python3 -m pip install flash-attn --no-build-isolation || \
     echo "flash-attn installation skipped (not critical)"
 
-# Install qwen-asr from GitHub (requires clone + editable install)
-RUN /usr/bin/git clone https://github.com/QwenLM/Qwen3-ASR.git /tmp/Qwen3-ASR && \
-    cd /tmp/Qwen3-ASR && \
+# Install qwen-asr from GitHub (download zip instead of git clone)
+RUN wget -q https://github.com/QwenLM/Qwen3-ASR/archive/refs/heads/main.zip -O /tmp/qwen3-asr.zip && \
+    unzip -q /tmp/qwen3-asr.zip -d /tmp && \
+    cd /tmp/Qwen3-ASR-main && \
     python3 -m pip install -e . && \
-    rm -rf /tmp/Qwen3-ASR/.git
+    rm -rf /tmp/qwen3-asr.zip /tmp/Qwen3-ASR-main
 
 RUN python3 -m pip cache purge
 
