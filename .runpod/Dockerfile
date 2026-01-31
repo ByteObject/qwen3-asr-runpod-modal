@@ -36,12 +36,15 @@ RUN pip install --no-cache-dir flash-attn --no-build-isolation || \
 # Install qwen-asr from GitHub
 RUN pip install --no-cache-dir git+https://github.com/QwenLM/Qwen3-ASR.git
 
-# Copy handler from repository root
-COPY handler.py /app/handler.py
+# Copy source code
+COPY src /app/src
+
+# Set handler path
+ENV HANDLER_PATH=/app/src/handler.py
 
 # Pre-download model during build (optional, speeds up cold start)
 # Uncomment the following lines to bake the model into the image
 # ARG HF_TOKEN
 # RUN python -c "from qwen_asr import Qwen3ASR; Qwen3ASR('${MODEL_NAME}')"
 
-CMD ["python", "-u", "/app/handler.py"]
+CMD ["python", "-u", "/app/src/handler.py"]
