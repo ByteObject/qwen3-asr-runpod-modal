@@ -377,5 +377,5 @@ def handler(event):
 # Model will be loaded on first request
 logger.info("Qwen3-ASR RunPod Serverless Handler initialized")
 
-# Start RunPod serverless handler
-runpod.serverless.start({"handler": handler})
+if __name__ == "__main__":
+    runpod.serverless.start({"handler": handler})

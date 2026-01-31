@@ -15,33 +15,26 @@ ENV MODEL_NAME=Qwen/Qwen3-ASR-1.7B
 ENV MAX_BATCH_SIZE=32
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /app
+WORKDIR /workspace
 
 # Install Python dependencies
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir \
-    runpod \
-    hf-transfer \
-    soundfile \
-    librosa \
-    pydub \
-    "transformers>=4.40.0" \
-    accelerate \
-    sentencepiece
+RUN python3 -m pip install --upgrade pip
+
+RUN python3 -m pip install runpod
+RUN python3 -m pip install hf-transfer
+RUN python3 -m pip install soundfile librosa pydub
+RUN python3 -m pip install "transformers>=4.40.0" accelerate sentencepiece
 
 # Install flash-attn for better performance (optional, may fail on some GPUs)
-RUN pip install --no-cache-dir flash-attn --no-build-isolation || \
+RUN python3 -m pip install flash-attn --no-build-isolation || \
     echo "flash-attn installation skipped (not critical)"
 
 # Install qwen-asr from GitHub
-RUN pip install --no-cache-dir git+https://github.com/QwenLM/Qwen3-ASR.git
+RUN python3 -m pip install git+https://github.com/QwenLM/Qwen3-ASR.git
+
+RUN python3 -m pip cache purge
 
 # Copy handler
-COPY handler.py /app/handler.py
+COPY handler.py /workspace/handler.py
 
-# Pre-download model during build (optional, speeds up cold start)
-# Uncomment the following lines to bake the model into the image
-# ARG HF_TOKEN
-# RUN python -c "from qwen_asr import Qwen3ASR; Qwen3ASR('${MODEL_NAME}')"
-
-CMD ["python", "-u", "/app/handler.py"]
+CMD ["python3", "-u", "handler.py"]
