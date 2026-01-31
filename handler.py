@@ -374,7 +374,9 @@ def handler(job: dict) -> dict:
         return {"error": sanitize_error(e)}
 
 
-if __name__ == "__main__":
-    logger.info("Starting Qwen3-ASR RunPod Serverless Handler")
-    get_model()
-    runpod.serverless.start({"handler": handler})
+# Pre-load model on cold start
+logger.info("Starting Qwen3-ASR RunPod Serverless Handler")
+get_model()
+
+# Start RunPod serverless handler
+runpod.serverless.start({"handler": handler})

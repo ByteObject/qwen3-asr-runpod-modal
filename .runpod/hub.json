@@ -7,7 +7,11 @@
   "version": "1.0.0",
   "author": "baoyu.io",
   "license": "Apache-2.0",
-  "repository": "https://github.com/QwenLM/Qwen3-ASR",
+  "repository": "https://github.com/ByteObject/qwen3-asr-runpod-modal",
+  "handler": {
+    "file": "handler.py",
+    "function": "handler"
+  },
   "tags": [
     "asr",
     "speech-recognition",

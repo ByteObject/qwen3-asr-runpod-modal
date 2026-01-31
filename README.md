@@ -1,5 +1,7 @@
 # Qwen3-ASR Serverless
 
+[![Runpod](https://api.runpod.io/badge/ByteObject/qwen3-asr-runpod-modal)](https://console.runpod.io/hub/ByteObject/qwen3-asr-runpod-modal)
+
 State-of-the-art speech recognition powered by [Qwen3-ASR](https://github.com/QwenLM/Qwen3-ASR), deployable on **Modal** or **RunPod**.
 
 ## Features
