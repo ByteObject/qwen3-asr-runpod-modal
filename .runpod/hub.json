@@ -3,57 +3,22 @@
   "description": "State-of-the-art speech recognition powered by Qwen3-ASR. Supports 30+ languages, 22 Chinese dialects, batch processing, and timestamp output.",
   "type": "serverless",
   "category": "audio",
+  "iconUrl": "https://cdn.prod.website-files.com/67d20fb9f56ff2ec6a7a657d/685b40411e38197aff6351df_poddy-3.webp",
   "config": {
     "runsOn": "GPU",
     "containerDiskInGb": 20,
-    "gpuCount": 1,
-    "gpuIds": "ADA_24,AMPERE_48,AMPERE_80",
-    "allowedCudaVersions": ["12.8", "12.7", "12.6", "12.5", "12.4", "12.3", "12.2", "12.1", "12.0"],
     "env": [
-      {
-        "key": "MODEL_NAME",
-        "input": {
-          "name": "Model",
-          "type": "string",
-          "description": "Qwen3-ASR model to use",
-          "options": [
-            {"label": "Qwen3-ASR-1.7B (Best accuracy)", "value": "Qwen/Qwen3-ASR-1.7B"},
-            {"label": "Qwen3-ASR-0.6B (Faster)", "value": "Qwen/Qwen3-ASR-0.6B"}
-          ],
-          "default": "Qwen/Qwen3-ASR-1.7B"
-        }
-      },
-      {
-        "key": "MAX_BATCH_SIZE",
-        "input": {
-          "name": "Max Batch Size",
-          "type": "number",
-          "description": "Maximum number of audio files per batch request",
-          "min": 1,
-          "max": 64,
-          "default": 32,
-          "advanced": true
-        }
-      },
       {
         "key": "HF_HOME",
         "value": "/runpod-volume"
-      }
-    ],
-    "presets": [
-      {
-        "name": "High Accuracy (1.7B)",
-        "defaults": {
-          "MODEL_NAME": "Qwen/Qwen3-ASR-1.7B",
-          "MAX_BATCH_SIZE": 32
-        }
       },
       {
-        "name": "Fast Inference (0.6B)",
-        "defaults": {
-          "MODEL_NAME": "Qwen/Qwen3-ASR-0.6B",
-          "MAX_BATCH_SIZE": 64
-        }
+        "key": "MODEL_NAME",
+        "value": "Qwen/Qwen3-ASR-1.7B"
+      },
+      {
+        "key": "MAX_BATCH_SIZE",
+        "value": "32"
       }
     ]
   }
