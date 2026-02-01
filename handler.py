@@ -5,8 +5,6 @@ import runpod
 import os
 import base64
 import tempfile
-import logging
-from typing import Optional
 
 # Global model instance (loaded once on cold start)
 MODEL = None
@@ -57,7 +55,11 @@ def transcribe(job):
         temp_path = decode_audio(audio_input)
 
         # Transcribe
-        results = model.transcribe(audio=temp_path, language=language)
+        results = model.transcribe(
+            audio=temp_path,
+            language=language,
+            return_time_stamps=return_timestamps,
+        )
 
         # Get first result
         result = results[0]
@@ -66,8 +68,8 @@ def transcribe(job):
             "language": result.language or language or "auto",
         }
 
-        if return_timestamps and hasattr(result, 'segments'):
-            output["timestamps"] = result.segments
+        if return_timestamps and hasattr(result, 'time_stamps'):
+            output["timestamps"] = result.time_stamps
 
         print("Transcription complete!")
         return output
