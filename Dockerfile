@@ -32,6 +32,9 @@ RUN python3 -m pip install "transformers>=4.40.0" accelerate sentencepiece
 RUN python3 -m pip install flash-attn --no-build-isolation || \
     echo "flash-attn installation skipped (not critical)"
 
+# Remove Debian-installed blinker that conflicts with flask dependency
+RUN pip uninstall -y blinker || rm -rf /usr/lib/python3/dist-packages/blinker* || true
+
 # Install qwen-asr from PyPI
 RUN python3 -m pip install qwen-asr
 
