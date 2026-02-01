@@ -32,8 +32,8 @@ RUN python3 -m pip install "transformers>=4.40.0" accelerate sentencepiece
 RUN python3 -m pip install flash-attn --no-build-isolation || \
     echo "flash-attn installation skipped (not critical)"
 
-# Install qwen-asr from GitHub (pip can install directly from zip URL)
-RUN python3 -m pip install https://github.com/QwenLM/Qwen3-ASR/archive/refs/heads/main.zip
+# Install qwen-asr from PyPI
+RUN python3 -m pip install qwen-asr
 
 RUN python3 -m pip cache purge
 
