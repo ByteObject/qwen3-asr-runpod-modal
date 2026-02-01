@@ -18,10 +18,15 @@ def load_model():
         return MODEL
 
     print("Loading Qwen3-ASR model...")
-    from qwen_asr import Qwen3ASR
+    import torch
+    from qwen_asr import Qwen3ASRModel
 
     model_name = os.environ.get("MODEL_NAME", "Qwen/Qwen3-ASR-1.7B")
-    MODEL = Qwen3ASR(model_name)
+    MODEL = Qwen3ASRModel.from_pretrained(
+        model_name,
+        dtype=torch.bfloat16,
+        device_map="cuda:0",
+    )
 
     print(f"Model loaded: {model_name}")
     return MODEL
@@ -52,19 +57,17 @@ def transcribe(job):
         temp_path = decode_audio(audio_input)
 
         # Transcribe
-        transcribe_kwargs = {}
-        if language:
-            transcribe_kwargs["language"] = language
+        results = model.transcribe(audio=temp_path, language=language)
 
-        result = model.transcribe(temp_path, **transcribe_kwargs)
-
+        # Get first result
+        result = results[0]
         output = {
-            "text": result.get("text", ""),
-            "language": result.get("language", language or "auto"),
+            "text": result.text,
+            "language": result.language or language or "auto",
         }
 
-        if return_timestamps:
-            output["timestamps"] = result.get("segments", result.get("timestamps", []))
+        if return_timestamps and hasattr(result, 'segments'):
+            output["timestamps"] = result.segments
 
         print("Transcription complete!")
         return output
