@@ -3,22 +3,22 @@
     {
       "name": "basic_english_transcription",
       "input": {
-        "audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_en.wav"
+        "audio": "https://www2.cs.uic.edu/~i101/SoundFiles/preamble.wav"
       },
       "timeout": 120000
     },
     {
       "name": "transcription_with_timestamps",
       "input": {
-        "audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_en.wav",
+        "audio": "https://www2.cs.uic.edu/~i101/SoundFiles/gettysburg10.wav",
         "return_timestamps": true
       },
       "timeout": 120000
     },
     {
-      "name": "chinese_transcription",
+      "name": "short_speech_transcription",
       "input": {
-        "audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_cn.wav"
+        "audio": "https://www2.cs.uic.edu/~i101/SoundFiles/taunt.wav"
       },
       "timeout": 120000
     },
@@ -26,8 +26,8 @@
       "name": "batch_transcription",
       "input": {
         "batch": [
-          {"audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_en.wav"},
-          {"audio": "https://github.com/QwenLM/Qwen3-ASR/raw/main/assets/audio_cn.wav", "return_timestamps": true}
+          {"audio": "https://www2.cs.uic.edu/~i101/SoundFiles/preamble.wav"},
+          {"audio": "https://www2.cs.uic.edu/~i101/SoundFiles/taunt.wav", "return_timestamps": true}
         ]
       },
       "timeout": 180000
