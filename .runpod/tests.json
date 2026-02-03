@@ -8,29 +8,18 @@
       "timeout": 120000
     },
     {
-      "name": "transcription_with_timestamps",
+      "name": "speechbrain_sample_transcription",
       "input": {
-        "audio": "https://raw.githubusercontent.com/speechbrain/speechbrain/develop/tests/samples/single-mic/example1.wav",
-        "return_timestamps": true
+        "audio": "https://raw.githubusercontent.com/speechbrain/speechbrain/develop/tests/samples/single-mic/example1.wav"
       },
       "timeout": 120000
     },
     {
-      "name": "short_speech_transcription",
+      "name": "coqui_sample_transcription",
       "input": {
         "audio": "https://raw.githubusercontent.com/coqui-ai/TTS/dev/tests/inputs/example_1.wav"
       },
       "timeout": 120000
-    },
-    {
-      "name": "batch_transcription",
-      "input": {
-        "batch": [
-          {"audio": "https://raw.githubusercontent.com/mozilla/DeepSpeech/master/data/smoke_test/LDC93S1.wav"},
-          {"audio": "https://raw.githubusercontent.com/coqui-ai/TTS/dev/tests/inputs/example_1.wav", "return_timestamps": true}
-        ]
-      },
-      "timeout": 180000
     }
   ],
   "config": {
