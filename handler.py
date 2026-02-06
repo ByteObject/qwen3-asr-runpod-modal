@@ -5,29 +5,25 @@ import runpod
 import os
 import base64
 import tempfile
+import torch
+from qwen_asr import Qwen3ASRModel
 
-# Global model instance (loaded once on cold start)
-MODEL = None
 
 def load_model():
     """Load model once during cold start"""
-    global MODEL
-    if MODEL is not None:
-        return MODEL
-
     print("Loading Qwen3-ASR model...")
-    import torch
-    from qwen_asr import Qwen3ASRModel
-
     model_name = os.environ.get("MODEL_NAME", "Qwen/Qwen3-ASR-1.7B")
-    MODEL = Qwen3ASRModel.from_pretrained(
+    model = Qwen3ASRModel.from_pretrained(
         model_name,
         dtype=torch.bfloat16,
         device_map="cuda:0",
     )
-
     print(f"Model loaded: {model_name}")
-    return MODEL
+    return model
+
+
+# Load model at startup before accepting any jobs
+MODEL = load_model()
 
 def transcribe(job):
     """
@@ -44,10 +40,7 @@ def transcribe(job):
     language = job_input.get("language", None)
     return_timestamps = job_input.get("return_timestamps", False)
 
-    print(f"Transcribing audio...")
-
-    # Load model if not already loaded
-    model = load_model()
+    print("Transcribing audio...")
 
     # Decode audio to temp file
     temp_path = None
@@ -55,7 +48,7 @@ def transcribe(job):
         temp_path = decode_audio(audio_input)
 
         # Transcribe
-        results = model.transcribe(
+        results = MODEL.transcribe(
             audio=temp_path,
             language=language,
             return_time_stamps=return_timestamps,
